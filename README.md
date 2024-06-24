@@ -1,43 +1,37 @@
-# TaskMaster-API
+# TaskMaster-API Documentation
 
 ## Introduction
-This API allows you to manage tasks, including creating tasks, retrieving task details, managing subtasks, and editing tasks as collaborators.
+The TaskMaster API allows you to manage tasks, including creating tasks, retrieving task details, managing subtasks, and editing tasks as collaborators.
 
 ## Base URL
-The base URL for all API requests.
 ```
 https://taskmaster-api-9nna.onrender.com/api/
 ```
 
 ## Authentication
-To use the API, you must first register and then obtain an authentication token.
 
 ### Registration
-To register, send a POST request with your username and password. Email is optional.
+To use the API, you must first register an account. Send a POST request with your username and password. Email is optional.
 
-#### HTTP Request
-```
-POST /register/
-```
+**Endpoint**: `POST /register/`
 
-#### Request Body
+**Request Body**:
 | Parameter | Type   | Description              |
 |-----------|--------|--------------------------|
 | username  | string | Required. Your username. |
 | password  | string | Required. Your password. |
 | email     | string | Optional. Your email.    |
 
-#### Example Request (with email)
+**Example Request**:
 ```python
+# With email
 requests.post("https://taskmaster-api-9nna.onrender.com/api/register/", json={"email": "luigi@gmail.com", "username": "luigi", "password": "your_password"})
-```
 
-#### Example Request (without email)
-```python
+# Without email
 requests.post("https://taskmaster-api-9nna.onrender.com/api/register/", json={"username": "luigi", "password": "your_password"})
 ```
 
-#### Example Response
+**Example Response**:
 ```json
 {
     "user": {
@@ -49,32 +43,29 @@ requests.post("https://taskmaster-api-9nna.onrender.com/api/register/", json={"u
 ```
 
 ### Requesting an Authentication Token
-After registration, request an authentication token using your username and password.
+After registering, request an authentication token using your username and password.
 
-#### HTTP Request
-```
-POST /api/task/auth/
-```
+**Endpoint**: `POST /api/auth/`
 
-#### Request Body
+**Request Body**:
 | Parameter | Type   | Description              |
 |-----------|--------|--------------------------|
 | username  | string | Required. Your username. |
 | password  | string | Required. Your password. |
 
-#### Example Request
+**Example Request**:
 ```python
 requests.post("https://taskmaster-api-9nna.onrender.com/api/auth/", json={"username": "luigi", "password": "your_password"})
 ```
 
-#### Example Response
+**Example Response**:
 ```json
 {
     "token": "45d558b21488e65d2df0172adbad196820f491be"
 }
 ```
 
-### Authentication
+### Authentication Header
 Include your API token in the request header for authenticated endpoints:
 ```
 Authorization: Token YOUR_API_TOKEN
@@ -85,22 +76,21 @@ Authorization: Token YOUR_API_TOKEN
 ### Create Task
 Create a new task with optional subtasks.
 
-#### HTTP Request
-```
-POST /api/task/
-```
+**Endpoint**: `POST /api/task/`
 
-#### Request Body
+**Request Body**:
 | Parameter      | Type     | Description                                              |
 |----------------|----------|----------------------------------------------------------|
-| title          | string   | Required. Title of the task.                              |
+| title          | string   | Required. Title of the task.                             |
 | status         | string   | Required. Status of the task (to-do, in-progress, completed). |
-| due_date       | string   | Optional. Due date of the task (YYYY-MM-DD format).       |
+| due_date       | string   | Optional. Due date of the task (YYYY-MM-DD format).      |
 | collaborators  | list     | Optional. List of collaborators (usernames) for the task.|
-| subtasks       | list     | Optional. List of subtasks.                               |
+| subtasks       | list     | Optional. List of subtasks.                              |
 
-#### Example Request (with subtasks)
+**Example Request**:
 ```python
+import requests
+
 url = "https://taskmaster-api-9nna.onrender.com/api/task/"
 
 headers = {
@@ -139,7 +129,7 @@ task = {
 response = requests.post(url, json=task, headers=headers)
 ```
 
-#### Example Response
+**Example Response**:
 ```json
 {
     "id": 83,
@@ -177,28 +167,32 @@ response = requests.post(url, json=task, headers=headers)
 ### Get Single Task
 Retrieve details of a single task by its ID.
 
-#### HTTP Request
-```
-GET /api/task/{task_id}/
-```
+**Endpoint**: `GET /api/task/{task_id}/`
 
-#### URL Parameters
-| Parameter | Type   | Description              |
-|-----------|--------|--------------------------|
-| task_id   | integer| Required. ID of the task.|
+**URL Parameters**:
+| Parameter | Type    | Description              |
+|-----------|---------|--------------------------|
+| task_id   | integer | Required. ID of the task.|
 
-#### Request Headers
+**Request Headers**:
 | Header        | Type   | Description          |
 |---------------|--------|----------------------|
-| Authorization | string | Bearer YOUR_API_KEY  |
+| Authorization | string | Token YOUR_API_TOKEN  |
 
-#### Example Request
-```
-GET https://taskmaster-api-9nna.onrender.com/api/task/1/
-Authorization: Bearer YOUR_API_KEY
+**Example Request**:
+```python
+import requests
+
+url = "https://taskmaster-api-9nna.onrender.com/api/task/1/"
+
+headers = {
+    "Authorization": "Token 45d558b21488e65d2df0172adbad196820f491be"
+}
+
+response = requests.get(url, headers=headers)
 ```
 
-#### Example Response
+**Example Response**:
 ```json
 {
     "id": 1,
@@ -223,23 +217,27 @@ Authorization: Bearer YOUR_API_KEY
 ### Get All Tasks by User
 Retrieve all tasks created by the authenticated user.
 
-#### HTTP Request
-```
-GET /api/task/
-```
+**Endpoint**: `GET /api/task/`
 
-#### Request Headers
+**Request Headers**:
 | Header        | Type   | Description          |
 |---------------|--------|----------------------|
-| Authorization | string | Bearer YOUR_API_KEY  |
+| Authorization | string | Token YOUR_API_TOKEN  |
 
-#### Example Request
-```
-GET https://taskmaster-api-9nna.onrender.com/api/task/
-Authorization: Token YOUR_API_KEY
+**Example Request**:
+```python
+import requests
+
+url = "https://taskmaster-api-9nna.onrender.com/api/task/"
+
+headers = {
+    "Authorization": "Token 45d558b21488e65d2df0172adbad196820f491be"
+}
+
+response = requests.get(url, headers=headers)
 ```
 
-#### Example Response
+**Example Response**:
 ```json
 [
     {
@@ -267,23 +265,27 @@ Authorization: Token YOUR_API_KEY
 ### View Collaborator Tasks
 Retrieve all tasks in which the authenticated user is a collaborator.
 
-#### HTTP Request
-```
-GET /api/task/collab/
-```
+**Endpoint**: `GET /api/task/collab/`
 
-#### Request Headers
+**Request Headers**:
 | Header        | Type   | Description          |
 |---------------|--------|----------------------|
-| Authorization | string | Bearer YOUR_API_KEY  |
+| Authorization | string | Token YOUR_API_TOKEN  |
 
-#### Example Request
-```
-GET https://taskmaster-api-9nna.onrender.com/api/task/collab/
-Authorization: Token YOUR_API_KEY
+**Example Request**:
+```python
+import requests
+
+url = "https://taskmaster-api-9nna.onrender.com/api/task/collab/"
+
+headers = {
+    "Authorization": "Token 45d558b21488e65d2df0172adbad196820f491be"
+}
+
+response = requests.get(url, headers=headers)
 ```
 
-#### Example Response
+**Example Response**:
 ```json
 [
     {
@@ -308,32 +310,36 @@ Authorization: Token YOUR_API_KEY
 ```
 
 ### View Collaborator Task
-Retrieve details of a specific task in which the authenticated user is a collaborator.
+Retrieve details of a specific
 
-#### HTTP Request
-```
-GET /api/task/collab/{task_id}/
-```
+ task in which the authenticated user is a collaborator.
 
-#### URL Parameters
-| Parameter | Type   | Description              |
-|-----------|--------|--------------------------|
-| task
+**Endpoint**: `GET /api/task/collab/{task_id}/`
 
-_id   | integer| Required. ID of the task.|
+**URL Parameters**:
+| Parameter | Type    | Description              |
+|-----------|---------|--------------------------|
+| task_id   | integer | Required. ID of the task.|
 
-#### Request Headers
+**Request Headers**:
 | Header        | Type   | Description          |
 |---------------|--------|----------------------|
-| Authorization | string | Bearer YOUR_API_KEY  |
+| Authorization | string | Token YOUR_API_TOKEN  |
 
-#### Example Request
-```
-GET https://taskmaster-api-9nna.onrender.com/api/task/collab/1/
-Authorization: Token YOUR_API_KEY
+**Example Request**:
+```python
+import requests
+
+url = "https://taskmaster-api-9nna.onrender.com/api/task/collab/1/"
+
+headers = {
+    "Authorization": "Token 45d558b21488e65d2df0172adbad196820f491be"
+}
+
+response = requests.get(url, headers=headers)
 ```
 
-#### Example Response
+**Example Response**:
 ```json
 {
     "id": 1,
@@ -357,32 +363,31 @@ Authorization: Token YOUR_API_KEY
 ### Edit Collaborator Task
 Edit the status of a specific subtask in a task in which the authenticated user is a collaborator.
 
-#### HTTP Request
-```
-PUT /api/task/collab/{task_id}/
-```
+**Endpoint**: `PUT /api/task/collab/{task_id}/`
 
-#### URL Parameters
-| Parameter | Type   | Description              |
-|-----------|--------|--------------------------|
-| task_id   | integer| Required. ID of the task.|
+**URL Parameters**:
+| Parameter | Type    | Description              |
+|-----------|---------|--------------------------|
+| task_id   | integer | Required. ID of the task.|
 
-#### Request Headers
+**Request Headers**:
 | Header        | Type   | Description          |
 |---------------|--------|----------------------|
-| Authorization | string | Bearer YOUR_API_KEY  |
-| Content-Type  | string | Required. Set to "application/json". |
+| Authorization | string | Token YOUR_API_TOKEN  |
+| Content-Type  | string | application/json      |
 
-#### Request Body
-| Parameter | Type   | Description                                              |
-|-----------|--------|----------------------------------------------------------|
-| subtasks  | list   | Required. List of subtasks to be modified.               |
-| id        | integer| Required. ID of the subtask to be modified.              |
-| status    | string | Required. New status of the subtask (to-do, in-progress, completed). |
+**Request Body**:
+| Parameter | Type    | Description                                              |
+|-----------|---------|----------------------------------------------------------|
+| subtasks  | list    | Required. List of subtasks to be modified.               |
+| id        | integer | Required. ID of the subtask to be modified.              |
+| status    | string  | Required. New status of the subtask (to-do, in-progress, completed). |
 
-#### Example Request
+**Example Request**:
 ```python
-url = "http://127.0.0.1:8000/api/task/collab/1/"
+import requests
+
+url = "https://taskmaster-api-9nna.onrender.com/api/task/collab/1/"
 
 headers = {
     "Authorization": "Token 45d558b21488e65d2df0172adbad196820f491be",
@@ -401,7 +406,7 @@ task = {
 response = requests.put(url, json=task, headers=headers)
 ```
 
-#### Example Response
+**Example Response**:
 ```json
 {
     "id": 1,
@@ -427,5 +432,3 @@ response = requests.put(url, json=task, headers=headers)
 - The `subtasks` field is a list of subtasks that can be assigned to collaborators by the `task_owner`.
 - The `status` field accepts only one of three parameters: `to-do`, `in-progress`, or `completed`.
 - The `task_owner` field is the username of the user who created the task.
-
----
