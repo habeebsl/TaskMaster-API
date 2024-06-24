@@ -6,35 +6,29 @@ username = input("Enter Username: ")
 if not username:
     username = "staff"
 
-auth_token = requests.post("http://127.0.0.1:8000/api/task/auth/", json={"username":username, "password":"Habeeb24434@"})
+auth_token = requests.post("http://127.0.0.1:8000/api/task/auth/", json={"username":username, "password":""})
 
-url = "http://127.0.0.1:8000/api/task/collab/83/"
+print(auth_token.text)
+
+url = "http://127.0.0.1:8000/api/task/collab/1/"
 
 headers = {
-    "Authorization": f"Token {json.loads(auth_token.text)['token']}",
+    "Authorization": f"Token 45d558b21488e65d2df0172adbad196820f491be",
     "Content-Type": "application/json"
 }
 
-data = {
+task = {
     "subtasks": [
         {
-        "title": "Check Virality",
-        "status": "in-progress",
-        "assigned_to": "staff"
-        },
-
-        {
-        "id": 118,
-        "title": "Check Vulnerability",
-        "status": "in-progress",
-        "assigned_to": "habeeb"
+            "id": 117,
+            "title": "Check Virality",
+            "status": "to-do",
+            "due_date": "2024-06-23",
+            "assigned_to": "johndoe"
         }
-    ],
-
-    "collaborators": ['habeeb', 'staff']
+    ]
 }
 
+response = requests.put(url, data=task, headers=headers)
 
-response = requests.put(url, data=json.dumps(data), headers=headers)
-
-print(response.text)
+# print(response.text)
