@@ -6,7 +6,7 @@ This API allows you to manage tasks, including creating tasks, retrieving task d
 ## Base URL
 The base URL for all API requests.
 ```
-https://api.example.com/v1
+https://taskmaster-api-9nna.onrender.com/api/
 ```
 
 ## Authentication
@@ -29,12 +29,12 @@ POST /register/
 
 #### Example Request (with email)
 ```python
-requests.post("http://127.0.0.1:8000/register/", json={"email": "luigi@gmail.com", "username": "luigi", "password": "your_password"})
+requests.post("https://taskmaster-api-9nna.onrender.com/api/register/", json={"email": "luigi@gmail.com", "username": "luigi", "password": "your_password"})
 ```
 
 #### Example Request (without email)
 ```python
-requests.post("http://127.0.0.1:8000/register/", json={"username": "luigi", "password": "your_password"})
+requests.post("https://taskmaster-api-9nna.onrender.com/api/register/", json={"username": "luigi", "password": "your_password"})
 ```
 
 #### Example Response
@@ -64,7 +64,7 @@ POST /api/task/auth/
 
 #### Example Request
 ```python
-requests.post("http://127.0.0.1:8000/api/task/auth/", json={"username": "luigi", "password": "your_password"})
+requests.post("https://taskmaster-api-9nna.onrender.com/api/auth/", json={"username": "luigi", "password": "your_password"})
 ```
 
 #### Example Response
@@ -77,7 +77,7 @@ requests.post("http://127.0.0.1:8000/api/task/auth/", json={"username": "luigi",
 ### Authentication
 Include your API token in the request header for authenticated endpoints:
 ```
-Authorization: Bearer YOUR_API_TOKEN
+Authorization: Token YOUR_API_TOKEN
 ```
 
 ## Endpoints
@@ -95,14 +95,13 @@ POST /api/task/
 |----------------|----------|----------------------------------------------------------|
 | title          | string   | Required. Title of the task.                              |
 | status         | string   | Required. Status of the task (to-do, in-progress, completed). |
-| due_date       | string   | Required. Due date of the task (YYYY-MM-DD format).       |
+| due_date       | string   | Optional. Due date of the task (YYYY-MM-DD format).       |
 | collaborators  | list     | Optional. List of collaborators (usernames) for the task.|
 | subtasks       | list     | Optional. List of subtasks.                               |
-| task_owner     | string   | The user (username) who created the task.                 |
 
 #### Example Request (with subtasks)
 ```python
-url = "http://127.0.0.1:8000/api/task/"
+url = "https://taskmaster-api-9nna.onrender.com/api/task/"
 
 headers = {
     "Authorization": "Token 45d558b21488e65d2df0172adbad196820f491be",
@@ -195,7 +194,7 @@ GET /api/task/{task_id}/
 
 #### Example Request
 ```
-GET http://127.0.0.1:8000/api/task/1/
+GET https://taskmaster-api-9nna.onrender.com/api/task/1/
 Authorization: Bearer YOUR_API_KEY
 ```
 
@@ -236,8 +235,8 @@ GET /api/task/
 
 #### Example Request
 ```
-GET http://127.0.0.1:8000/api/task/
-Authorization: Bearer YOUR_API_KEY
+GET https://taskmaster-api-9nna.onrender.com/api/task/
+Authorization: Token YOUR_API_KEY
 ```
 
 #### Example Response
@@ -280,8 +279,8 @@ GET /api/task/collab/
 
 #### Example Request
 ```
-GET http://127.0.0.1:8000/api/task/collab/
-Authorization: Bearer YOUR_API_KEY
+GET https://taskmaster-api-9nna.onrender.com/api/task/collab/
+Authorization: Token YOUR_API_KEY
 ```
 
 #### Example Response
@@ -330,8 +329,8 @@ _id   | integer| Required. ID of the task.|
 
 #### Example Request
 ```
-GET http://127.0.0.1:8000/api/task/collab/1/
-Authorization: Bearer YOUR_API_KEY
+GET https://taskmaster-api-9nna.onrender.com/api/task/collab/1/
+Authorization: Token YOUR_API_KEY
 ```
 
 #### Example Response
