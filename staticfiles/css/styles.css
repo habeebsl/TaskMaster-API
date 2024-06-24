@@ -1,0 +1,40 @@
+body {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url('/static/grid.png');
+    background-repeat: repeat-x;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.button .svg {
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.button:hover {
+    background-color: #0056b3; /* Change background on hover */
+}
+
+.link {
+    text-decoration: none;
+}
