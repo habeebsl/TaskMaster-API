@@ -36,7 +36,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     #Third party
-    'rest_framework',
     'rest_framework.authtoken',
 
     'django.contrib.admin',
