@@ -6,29 +6,23 @@ username = input("Enter Username: ")
 if not username:
     username = "staff"
 
-auth_token = requests.post("http://127.0.0.1:8000/api/task/auth/", json={"username":username, "password":""})
+auth_token = requests.post("https://taskmaster-api-9nna.onrender.com/api/auth/", json={"username":username, "password":"Habeeb24434@"})
 
 print(auth_token.text)
 
-url = "http://127.0.0.1:8000/api/task/collab/1/"
+url = "https://taskmaster-api-9nna.onrender.com/api/task/"
 
 headers = {
-    "Authorization": f"Token 45d558b21488e65d2df0172adbad196820f491be",
+    "Authorization": f"Token {json.loads(auth_token.text).get('token')}",
     "Content-Type": "application/json"
 }
 
 task = {
-    "subtasks": [
-        {
-            "id": 117,
-            "title": "Check Virality",
-            "status": "to-do",
-            "due_date": "2024-06-23",
-            "assigned_to": "johndoe"
-        }
-    ]
+    "title": "T 123",
+    "status": "to-do",
+    "collaborators": ["tobi"],
 }
 
-response = requests.put(url, data=task, headers=headers)
+response = requests.get(url, json=task, headers=headers)
 
-# print(response.text)
+print(response.text)
